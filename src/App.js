@@ -1,5 +1,5 @@
 import logo from './logo.svg';
-import './App.css';
+//import './App.css';
 import cat from './cat.jpg'
 import pipe from './pipeline-express.jpg';
 import React, { Component } from 'react';
@@ -10,6 +10,30 @@ const myAlgoWallet = Pipeline.init();
 //const catdata = "AAAAACAgICAAAAAAAAAAAAAAACCIzMyt0YyIsdHRAAAAICAgICAgAAAAICQAAAAAACCIzMzR0dHR+fr6AAAgICQkREREIAAgRIhoAAAAACCIzMzR1Yj1+v76AAAgJEREaIiIRABErK2sIAAAAABozND1iK35+v7+AAAgJERojK2saCBoiM2s9QAAAABkzPCsrM35+v7+AAAgJGisrdHRiCRoiKysiCAAAABkzKyI0c35+fr+AABEaIzQ0dXRjCAAqPHRiIgAAABkRESs9cj++vr+AABEaKzR9fWtRAAA0fH1rGggAAAgaGTx9ez++vn6AABEjKysaEQgAAAAiMzMzIggAABkRGTNzfH++vX1ACSIrIwgIAAAACAA0YTRzayIACAAiKzNzfb5+fXwAESMrCQAACAgICQgiKj1QIhEAGQAiETRqNH19fXxJGisrAAgICBERGgkZKyMzWQgiCAAIGiI0YjR+fn1JIitaAAAACBEaGhEaIiIREQAZGgAACBorKzR+vr6RIytJAAAAEREZGgkrESIRCBoREQgAACIIM3R+fr6JIisIAAAIERoRGhEjGisrACsiGhERCCsZKzR+fn6JGiMAAAgRERoRGhEZABEIADwrERoAGiIAKzR9fn5JGiMICAgREREaEREiGhERADM9YgArCCsRIjR9fn1AERoJCAgaEREiCSIiM1ErEQgzKwAACAgrGjM9fXRACRoJCBEREREjACssdHNICDRaET2rCAgjGSs0dHQACRERCBEREREjACIjIgARGhoZCDRIABEiESIrKysAAAkJCAgRABkiACIiGis0YxEAESsZIhoZERoiIhoAAAAAAAgREQgaCSIiK2I0UQgICAgqK1oRERkZEQgBAAAACAAAEQgZGgkiK2srKxoqCCIRIhERERERAAABAAAAABERABEZIhEaKys8axErGSIiGRERGggIAAAAAAAAAAgJCAgRGiIIERoRIzRiGT6iGRERCAAAAAAAAAAAAAAACAARGSIiEREZK3R0frRrWREICBkAAAAACBEaIisRCAgRERERERkiGRAQEQgICAgICAgIEAgQCAgRERERCBEQEBAQCAgICAgICAgICAgICAAAAAAICAgICAgICAgICAgICAgICAgICAgICAgICAAAAAAICAgICAgICAgICAgICAgICAgICAgICAAAAAAAAAA"
 
 const imgSrc = cat;
+
+Pipeline.main = true;
+
+async function fetchNote(txid) {
+
+  let indexerURL = 'https://'
+
+  if (Pipeline.main == true) {
+    indexerURL = indexerURL + 'algoexplorerapi.io/idx2/v2/transactions/'
+  }
+  else {
+    indexerURL = indexerURL + "testnet.algoexplorerapi.io/idx2/v2/transactions/"
+  }
+
+  let url2 = indexerURL + txid
+  try {
+    let data = await fetch(url2)
+    let data2 = await data.json()
+    let data3 = data2.transaction.note
+    return data3
+  } catch (error) {
+    console.log(error)
+  }
+}
 
 function base64ToArrayBuffer(data){
    let newData = Buffer.from(data, 'base64');
@@ -81,7 +105,8 @@ class App extends Component {
     this.state = {
       data: [],
       myAddress: "",
-      URL: ""
+      URL: "",
+      noteTxID: ""
     }
   }
 
@@ -137,26 +162,32 @@ handleB64 = (event) => {
   this.setState({data: base64ToArrayBuffer(event.target.value) })
 }
 
-renderB64 = () => {
-  this.drawData();
+handleFetch = () => {
+  fetchNote(this.state.noteTxID).then(data => 
+    this.setState({data: base64ToArrayBuffer(data)}, () => 
+    this.drawData()));
+}
+
+handleTXID = (event) => {
+  this.setState({noteTxID: event.target.value})
 }
 
 
   render() {
 
     return (
-      <div align="center" width="100%">
+      <div align="center" textAlign="center" width="100%">
         <canvas id="canvas"/><br/>
-        <canvas id="canvas2" width="100" height="100"/><br/>
+        <canvas id="canvas2" width="125" height="125"/><br/>
         <label>Image URL
         <input type="text" onChange={this.handleURL}/>
         </label>
        <button onClick={this.click}>Load</button><br/>
 
-       <label> Base64 Algorand Note to Render: 
-        <input type="text"  width="500" height="100" onChange={this.handleB64}/>
+       <label> txID: 
+        <input type="text"  width="500" height="100" onChange={this.handleTXID}/>
         </label>
-       <button onClick={this.renderB64}>Render</button><br/>
+        <button onClick={this.handleFetch}>Fetch & Render</button><br/>
 
         <AlgoButton wallet={myAlgoWallet} context={this} returnTo={"myAddress"} /><br />
         <h3>{this.state.myAddress}</h3><br />
@@ -177,6 +208,8 @@ renderB64 = () => {
           context={this}
           returnTo={"txID"}
         />
+
+
       </div>
     )
   }
