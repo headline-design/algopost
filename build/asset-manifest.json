@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/static/css/main.327a4a29.chunk.css",
+    "main.js": "/static/js/main.d5c98676.chunk.js",
+    "main.js.map": "/static/js/main.d5c98676.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.ac42f6a5.js",
+    "runtime-main.js.map": "/static/js/runtime-main.ac42f6a5.js.map",
+    "static/js/2.6aa148ec.chunk.js": "/static/js/2.6aa148ec.chunk.js",
+    "static/js/2.6aa148ec.chunk.js.map": "/static/js/2.6aa148ec.chunk.js.map",
+    "static/js/3.59c4ac9c.chunk.js": "/static/js/3.59c4ac9c.chunk.js",
+    "static/js/3.59c4ac9c.chunk.js.map": "/static/js/3.59c4ac9c.chunk.js.map",
+    "index.html": "/index.html",
+    "static/css/main.327a4a29.chunk.css.map": "/static/css/main.327a4a29.chunk.css.map",
+    "static/js/2.6aa148ec.chunk.js.LICENSE.txt": "/static/js/2.6aa148ec.chunk.js.LICENSE.txt",
+    "static/media/cat.jpg": "/static/media/cat.94371a22.jpg",
+    "static/media/logo.svg": "/static/media/logo.6ce24c58.svg",
+    "static/media/pipeline-express.jpg": "/static/media/pipeline-express.1dec43b1.jpg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.ac42f6a5.js",
+    "static/js/2.6aa148ec.chunk.js",
+    "static/css/main.327a4a29.chunk.css",
+    "static/js/main.d5c98676.chunk.js"
+  ]
+}
