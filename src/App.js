@@ -7,21 +7,21 @@ import { Pipeline, AlgoButton, AlgoSendButton } from 'pipeline-express-react';
 
 const myAlgoWallet = Pipeline.init();
 
+Pipeline.main = true
+
 //const catdata = "AAAAACAgICAAAAAAAAAAAAAAACCIzMyt0YyIsdHRAAAAICAgICAgAAAAICQAAAAAACCIzMzR0dHR+fr6AAAgICQkREREIAAgRIhoAAAAACCIzMzR1Yj1+v76AAAgJEREaIiIRABErK2sIAAAAABozND1iK35+v7+AAAgJERojK2saCBoiM2s9QAAAABkzPCsrM35+v7+AAAgJGisrdHRiCRoiKysiCAAAABkzKyI0c35+fr+AABEaIzQ0dXRjCAAqPHRiIgAAABkRESs9cj++vr+AABEaKzR9fWtRAAA0fH1rGggAAAgaGTx9ez++vn6AABEjKysaEQgAAAAiMzMzIggAABkRGTNzfH++vX1ACSIrIwgIAAAACAA0YTRzayIACAAiKzNzfb5+fXwAESMrCQAACAgICQgiKj1QIhEAGQAiETRqNH19fXxJGisrAAgICBERGgkZKyMzWQgiCAAIGiI0YjR+fn1JIitaAAAACBEaGhEaIiIREQAZGgAACBorKzR+vr6RIytJAAAAEREZGgkrESIRCBoREQgAACIIM3R+fr6JIisIAAAIERoRGhEjGisrACsiGhERCCsZKzR+fn6JGiMAAAgRERoRGhEZABEIADwrERoAGiIAKzR9fn5JGiMICAgREREaEREiGhERADM9YgArCCsRIjR9fn1AERoJCAgaEREiCSIiM1ErEQgzKwAACAgrGjM9fXRACRoJCBEREREjACssdHNICDRaET2rCAgjGSs0dHQACRERCBEREREjACIjIgARGhoZCDRIABEiESIrKysAAAkJCAgRABkiACIiGis0YxEAESsZIhoZERoiIhoAAAAAAAgREQgaCSIiK2I0UQgICAgqK1oRERkZEQgBAAAACAAAEQgZGgkiK2srKxoqCCIRIhERERERAAABAAAAABERABEZIhEaKys8axErGSIiGRERGggIAAAAAAAAAAgJCAgRGiIIERoRIzRiGT6iGRERCAAAAAAAAAAAAAAACAARGSIiEREZK3R0frRrWREICBkAAAAACBEaIisRCAgRERERERkiGRAQEQgICAgICAgIEAgQCAgRERERCBEQEBAQCAgICAgICAgICAgICAAAAAAICAgICAgICAgICAgICAgICAgICAgICAgICAAAAAAICAgICAgICAgICAgICAgICAgICAgICAAAAAAAAAA"
 
 const imgSrc = cat;
-
-Pipeline.main = true;
 
 async function fetchNote(txid) {
 
   let indexerURL = 'https://'
 
   if (Pipeline.main == true) {
-    indexerURL = indexerURL + 'algoexplorerapi.io/idx2/v2/transactions/'
+    indexerURL = indexerURL + 'algoindexer.algoexplorerapi.io/v2/transactions/'
   }
   else {
-    indexerURL = indexerURL + "testnet.algoexplorerapi.io/idx2/v2/transactions/"
+    alert("testNet not yet enabled")
   }
 
   let url2 = indexerURL + txid
@@ -35,10 +35,10 @@ async function fetchNote(txid) {
   }
 }
 
-function base64ToArrayBuffer(data){
-   let newData = Buffer.from(data, 'base64');
-   console.log(newData);
-   return newData;
+function base64ToArrayBuffer(data) {
+  let newData = Buffer.from(data, 'base64');
+  console.log(newData);
+  return newData;
 }
 
 function bin2String(array) {
@@ -47,17 +47,17 @@ function bin2String(array) {
 
 var imgdata = [];
 
-function eightbit(data){
-let newData = [];
-let counter = 0;
-for (var i = 0; i < data.length; i += 3){
-  let r = data[i];
-  let g = data[i + 1];
-  let b = data[i + 2];
-  let newColor = (Math.floor((r / 32)) << 5) + (Math.floor((g / 32)) << 2) + Math.floor((b / 64));
-  newData.push(newColor);
-}
-return newData;
+function eightbit(data) {
+  let newData = [];
+  let counter = 0;
+  for (var i = 0; i < data.length; i += 3) {
+    let r = data[i];
+    let g = data[i + 1];
+    let b = data[i + 2];
+    let newColor = (Math.floor((r / 32)) << 5) + (Math.floor((g / 32)) << 2) + Math.floor((b / 64));
+    newData.push(newColor);
+  }
+  return newData;
 }
 
 function rgbFrom8(data) {
@@ -72,35 +72,35 @@ function rgbFrom8(data) {
     newData.push(b);
   }
   return newData;
-  }
+}
 
 
 
-function removeAlpha(data){
+function removeAlpha(data) {
   let newData = [];
   let counter = 0
-  for (var i = 0; i < data.length; i ++){
-    if (counter < 3) {newData.push(data[i]); counter ++;}
-    else {counter = 0 }
+  for (var i = 0; i < data.length; i++) {
+    if (counter < 3) { newData.push(data[i]); counter++; }
+    else { counter = 0 }
   }
   return newData;
 }
 
-function addAlpha(data){
+function addAlpha(data) {
   let newData = [];
   let counter = -1
-  for (var i = 0; i < data.length ; i ++){
-    if (counter < 2) {newData.push(data[i]); counter ++;}
-    else {newData.push(255); newData.push(data[i]); counter = 0;}
+  for (var i = 0; i < data.length; i++) {
+    if (counter < 2) { newData.push(data[i]); counter++; }
+    else { newData.push(255); newData.push(data[i]); counter = 0; }
   }
   newData.push(255);
   return newData;
-  
+
 }
 
 
 class App extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       data: [],
@@ -110,94 +110,93 @@ class App extends Component {
     }
   }
 
-  updateCanvas(newsrc){
+  updateCanvas(newsrc) {
     var img = new Image();
     img.crossOrigin = 'Aanonymous';
     img.src = newsrc;
     var canvas = document.getElementById('canvas');
     var ctx = canvas.getContext('2d');
     img.onload = () => {
-      canvas.width=30
-      canvas.height=30
+      canvas.width = 30
+      canvas.height = 30
       ctx.drawImage(img, 0, 0, 30, 30)
       img.style.display = 'none';
       imgdata = ctx.getImageData(0, 0, 30, 30).data;
-      
-      this.setState({ data: eightbit(removeAlpha(imgdata)) }, 
-      () => this.setState({ note: bin2String(this.state.data) }, 
-      () => this.drawData()))
+
+      this.setState({ data: eightbit(removeAlpha(imgdata)) },
+        () => this.setState({ note: bin2String(this.state.data) },
+          () => this.drawData()))
 
     }
   }
 
-  drawData(){
+  drawData() {
     var canvas = document.getElementById('canvas2');
     var ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     const newData = addAlpha(rgbFrom8(this.state.data));
     var pic = new Uint8ClampedArray(newData);
-    var imgData = new ImageData(pic,30,30);
+    var imgData = new ImageData(pic, 30, 30);
     var renderer = document.createElement('canvas');
     renderer.getContext('2d').putImageData(imgData, 0, 0);
-    ctx.drawImage(renderer, 0,0, 1200, 600);
+    ctx.drawImage(renderer, 0, 0, 1200, 600);
   }
 
-  componentDidMount(){
+  componentDidMount() {
     this.updateCanvas(cat);
-}
+  }
 
-click = () => {
-  this.updateCanvas(this.state.URL)
-}
+  click = () => {
+    this.updateCanvas(this.state.URL)
+  }
 
-inputRecipient = (event) => {
-  this.setState({ recipient: event.target.value });
-}
+  inputRecipient = (event) => {
+    this.setState({ recipient: event.target.value });
+  }
 
-handleURL = (event) => {
-  this.setState({URL: event.target.value})
-}
+  handleURL = (event) => {
+    this.setState({ URL: event.target.value })
+  }
 
-handleB64 = (event) => {
-  this.setState({data: base64ToArrayBuffer(event.target.value) })
-}
+  handleB64 = (event) => {
+    this.setState({ data: base64ToArrayBuffer(event.target.value) })
+  }
 
-handleFetch = () => {
-  fetchNote(this.state.noteTxID).then(data => 
-    this.setState({data: base64ToArrayBuffer(data)}, () => 
-    this.drawData()));
-}
+  handleFetch = () => {
+    fetchNote(this.state.noteTxID).then(data =>
+      this.setState({ data: base64ToArrayBuffer(data) }, () =>
+        this.drawData()));
+  }
 
-handleTXID = (event) => {
-  this.setState({noteTxID: event.target.value})
-}
-
+  handleTXID = (event) => {
+    this.setState({ noteTxID: event.target.value })
+  }
 
   render() {
 
     return (
       <div align="center" textAlign="center" width="100%">
-        <canvas id="canvas"/><br/>
-        <canvas id="canvas2" width="125" height="125"/><br/>
+        <canvas id="canvas" /><br />
+        <canvas id="canvas2" width="125" height="125" /><br />
         <label>Image URL
-        <input type="text" onChange={this.handleURL}/>
+          <input type="text" onChange={this.handleURL} />
         </label>
-       <button onClick={this.click}>Load</button><br/>
+        <button onClick={this.click}>Load</button><br />
 
-       <label> txID: 
-        <input type="text"  width="500" height="100" onChange={this.handleTXID}/>
+        <label> txID:
+          <input type="text" placeholder="txid of pic on blockchain" width="500" height="100" onChange={this.handleTXID} />
         </label>
-        <button onClick={this.handleFetch}>Fetch & Render</button><br/>
+        <button onClick={this.handleFetch}>Fetch & Render</button><br />
 
         <AlgoButton wallet={myAlgoWallet} context={this} returnTo={"myAddress"} /><br />
         <h3>{this.state.myAddress}</h3><br />
         <form >
-        <label>
-          Recipient:
-          <input type="text" onChange={this.inputRecipient} />
-        </label><br></br>
+          <label>
+            Recipient:
+            <input type="text" onChange={this.inputRecipient} />
+          </label><br></br>
         </form>
-   <br></br><br></br>
+        <br></br><br></br>
         <AlgoSendButton
           index={0}
           recipient={this.state.recipient}
@@ -208,6 +207,7 @@ handleTXID = (event) => {
           context={this}
           returnTo={"txID"}
         />
+        <p><b>txid of uploaded pic: </b> {this.state.txID}</p>
 
 
       </div>
